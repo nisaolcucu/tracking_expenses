@@ -16,14 +16,18 @@
 ## ✨ Özellikler
 
 - **🤖 GPT-4o-mini ile Akıllı Fiş Okuma:** Fiş fotoğrafından mağaza adını, KDV dahil genel toplamı, tarihi ve kategoriyi yapay zeka ile otomatik çıkarma.
+- **💳 Sabit Abonelikler & Yinelenen Giderler Takibi:** Netflix, Spotify, iCloud, kira gibi her ay tekrarlanan ödemeleri yönetme, ödeme gününe kalan süreyi ve en yakın faturaları canlı takip etme.
+- **🐷 Birikim Hedefleri & Dijital Kumbara:** Hayalleriniz (tatil, cihaz, acil fon) için hedef belirleme, tek tıkla kumbaraya para aktarma ve tamamlanma yüzdesini takip etme.
+- **🛍️ Akıllı İstek Listesi (Wishlist):** Almayı hayal ettiğiniz ürünleri fotoğraflı/fotoğrafsız kaydetme ve tek tıkla ("Satın Aldım") harcamalara dönüştürme.
+- **🤔 "Almalı mıyım?" Yüzen AI Finans Danışmanı:** Sağ alt köşedeki akıllı sohbet balonu ile kararsız kaldığınız bir alışverişi girdiğinizde, mevcut ayın limit ve harcamalarına göre 🟢 Güvenli, 🟡 Düşünerek Al veya 🔴 Ertele kararı sunma.
+- **🔍 Anlık Arama, Filtreleme & Excel/CSV Dışa Aktarma:** Harcamalar listesinde mağaza adına göre anında arama, kategori filtre hapları ve tek tıkla Türkçe Excel uyumlu UTF-8 CSV indirme.
+- **🎯 Kategori Bazlı Bütçe Limitleri & İlerleme Çubukları:** Her kategori için aylık harcama tavanı belirleme, limit aşımı ve yaklaşımı (%75, %100+) durumlarında görsel uyarılar.
 - **🇹🇷 Türk Fişlerine Özel Ayrıştırma:** "TOPLAM", "TOPKDV", "MATRAH", "NAKİT" gibi karmaşık terimleri ayırt etme, `1.234,50` formatındaki virgüllü tutarları ve `GG.AA.YYYY` tarih formatını hatasız tespit etme.
 - **📸 Canlı Kamera ve Dosya Desteği:** Mobilde doğrudan arka kamerayı, masaüstünde ise WebRTC destekli canlı web kamerasını açarak anlık çekim ve görsel yükleme imkanı.
 - **📅 Tarih & Harcama Yoğunluğu Takvimi (Heatmap):** Geçmiş yıllara ve aylara tek tıkla atlama, seçili ayın günlerini harcama büyüklüğüne göre yeşil/sarı/kırmızı renklerle görselleştiren ısı haritası.
-- **📊 Kategori Bazlı Çubuk Grafik:** Recharts ile oluşturulmuş, aylık harcamaları 8 temel kategoriye (`Market`, `Yeme-İçme`, `Ulaşım`, `Fatura`, `Sağlık`, `Giyim`, `Eğlence`, `Diğer`) göre dağıtan dinamik çubuk grafik.
+- **📊 Kategori Bazlı Çubuk Grafik:** Recharts ile oluşturulmuş, aylık harcamaları 8 temel kategoriye göre dağıtan dinamik çubuk grafik.
+- **✨ Ultra Lüks Fintech Tasarım Dili:** Ambient mesh mor/çivit/zümrüt ışıklandırmaları, Geist modern tipografisi, cam kartlar (Glassmorphism) ve mikro animasyonlar.
 - **🔒 Güvenli Veri & Depolama (RLS):** Her kullanıcının yalnızca kendi verilerini ve yüklediği fiş fotoğraflarını görebildiği PostgreSQL Row Level Security ve Private Storage Bucket mimarisi.
-- **🖼️ 1 Saatlik İmzalı URL'ler:** Fiş fotoğraflarının internete açık olmaması için yalnızca oturum açmış kullanıcıya sunulan 1 saat geçerli geçici imzalı URL bağlantıları.
-- **🗑️ Eş Zamanlı Temizlik:** Bir harcama silindiğinde hem veritabanı kaydı hem de Supabase Storage'daki görsel dosyası otomatik olarak temizlenir.
-- **📱 375px Mobil Uyumlu Tasarım:** En dar telefon ekranlarında dahi taşma yapmayan, modern Dark Mode ve Glassmorphism tasarım dili.
 
 ---
 

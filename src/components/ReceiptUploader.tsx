@@ -226,16 +226,16 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
   }
 
   return (
-    <div className="bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl">
+    <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-white/15 rounded-3xl p-5 sm:p-7 shadow-2xl transition-all">
       <div className="flex items-center justify-between mb-5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 flex items-center justify-center shadow-md shadow-indigo-500/10">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-white text-base">Yeni Fiş Ekle</h3>
+            <h3 className="font-bold text-white text-base tracking-tight">Yeni Fiş Ekle</h3>
             <p className="text-xs text-slate-400">
-              Yapay zeka ile tara veya elle gir
+              Yapay zeka ile tara veya bilgileri girin
             </p>
           </div>
         </div>

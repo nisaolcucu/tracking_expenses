@@ -65,17 +65,17 @@ export default function CategoryChart({ data }: CategoryChartProps) {
   }
 
   return (
-    <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-xl">
-      <div className="flex items-center gap-2 mb-6">
-        <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-          <BarChart3 className="w-4 h-4" />
+    <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-white/15 rounded-3xl p-5 sm:p-7 shadow-2xl transition-all">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 flex items-center justify-center shadow-md shadow-indigo-500/10">
+          <BarChart3 className="w-5 h-5" />
         </div>
         <div>
-          <h3 className="font-semibold text-white text-sm sm:text-base">
-            Kategori Bazında Harcamalar
+          <h3 className="font-bold text-white text-base tracking-tight">
+            Kategori Dağılımı
           </h3>
           <p className="text-xs text-slate-400">
-            Seçili aydaki toplam tutarın kategorilere göre dağılımı
+            Seçili aydaki toplam harcamanın kategorilere göre dökümü
           </p>
         </div>
       </div>
