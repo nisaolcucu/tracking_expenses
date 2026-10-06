@@ -158,14 +158,14 @@ export default function BudgetModal({ initialBudgets }: BudgetModalProps) {
         <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
           <span className="text-[11px] text-slate-500 flex items-center gap-1">
             <Sparkles className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
-            AI budget alerts active
+            {t('budget_alerts_active')}
           </span>
           <button
             type="button"
             onClick={() => setIsOpen(false)}
             className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-xl transition-colors cursor-pointer"
           >
-            OK
+            {t('ok_btn')}
           </button>
         </div>
       </div>
