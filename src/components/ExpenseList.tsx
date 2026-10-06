@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useEffect, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { formatCurrency, formatDate } from '@/lib/formatters'
 import { deleteExpenseAction } from '@/app/actions/expenses'
 import {
   Trash2,
   Calendar,
-  Store,
-  Tag,
   Receipt,
   Eye,
   X,
@@ -20,6 +19,7 @@ import {
   Shirt,
   Sparkles,
   HelpCircle,
+  Check,
 } from 'lucide-react'
 
 export interface ExpenseItem {
@@ -62,21 +62,36 @@ const CATEGORY_BADGES: Record<string, string> = {
 }
 
 export default function ExpenseList({ expenses }: ExpenseListProps) {
+  const router = useRouter()
+  const [items, setItems] = useState<ExpenseItem[]>(expenses)
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isDeleting, startDeleting] = useTransition()
 
-  const handleDelete = (id: string, imagePath: string | null) => {
-    if (confirm('Bu fişi silmek istediğinize emin misiniz?')) {
-      setDeletingId(id)
-      startDeleting(async () => {
-        await deleteExpenseAction(id, imagePath)
-        setDeletingId(null)
-      })
-    }
+  // Props güncellendiğinde yerel listeyi güncelle
+  useEffect(() => {
+    setItems(expenses)
+  }, [expenses])
+
+  const executeDelete = (id: string, imagePath: string | null) => {
+    setDeletingId(id)
+    setConfirmDeleteId(null)
+
+    startDeleting(async () => {
+      const res = await deleteExpenseAction(id, imagePath)
+      if (res.success) {
+        // Arayüzden anında kaldır
+        setItems((prev) => prev.filter((item) => item.id !== id))
+        router.refresh()
+      } else {
+        alert(res.error || 'Silme işlemi gerçekleştirilemedi.')
+      }
+      setDeletingId(null)
+    })
   }
 
-  if (expenses.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-xl">
         <div className="w-16 h-16 rounded-2xl bg-slate-800/80 text-slate-500 flex items-center justify-center mx-auto mb-4">
@@ -103,14 +118,15 @@ export default function ExpenseList({ expenses }: ExpenseListProps) {
           </p>
         </div>
         <span className="text-xs font-medium text-slate-400 px-3 py-1 bg-slate-800/80 rounded-xl">
-          {expenses.length} Kayıt
+          {items.length} Kayıt
         </span>
       </div>
 
       {/* Expense Items */}
       <div className="space-y-3">
-        {expenses.map((expense) => {
+        {items.map((expense) => {
           const isItemDeleting = isDeleting && deletingId === expense.id
+          const isConfirming = confirmDeleteId === expense.id
 
           return (
             <div
@@ -172,26 +188,51 @@ export default function ExpenseList({ expenses }: ExpenseListProps) {
               </div>
 
               {/* Sağ Taraf: Tutar ve Sil Butonu */}
-              <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-800/60">
+              <div className="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-800/60">
                 <div className="text-right">
                   <div className="font-bold text-white text-base sm:text-lg">
                     {formatCurrency(expense.amount, expense.currency)}
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  disabled={isItemDeleting}
-                  onClick={() => handleDelete(expense.id, expense.image_path)}
-                  className="p-2.5 text-slate-500 hover:text-rose-400 bg-slate-900 hover:bg-rose-500/10 border border-slate-800 hover:border-rose-500/30 rounded-xl transition-all cursor-pointer disabled:opacity-50"
-                  title="Harcamayı Sil"
-                >
-                  {isItemDeleting ? (
-                    <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
-                  ) : (
-                    <Trash2 className="w-4 h-4" />
-                  )}
-                </button>
+                {/* Silme Onay Butonları */}
+                {isConfirming ? (
+                  <div className="flex items-center gap-1.5 bg-rose-500/10 border border-rose-500/30 p-1 rounded-xl">
+                    <span className="text-[11px] text-rose-300 font-medium px-1.5">
+                      Silinsin mi?
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => executeDelete(expense.id, expense.image_path)}
+                      className="p-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg transition-colors cursor-pointer"
+                      title="Onayla ve Sil"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmDeleteId(null)}
+                      className="p-1.5 text-slate-400 hover:text-white rounded-lg transition-colors cursor-pointer"
+                      title="Vazgeç"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={isItemDeleting}
+                    onClick={() => setConfirmDeleteId(expense.id)}
+                    className="p-2.5 text-slate-500 hover:text-rose-400 bg-slate-900 hover:bg-rose-500/10 border border-slate-800 hover:border-rose-500/30 rounded-xl transition-all cursor-pointer disabled:opacity-50"
+                    title="Harcamayı Sil"
+                  >
+                    {isItemDeleting ? (
+                      <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
+                    ) : (
+                      <Trash2 className="w-4 h-4" />
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           )

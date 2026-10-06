@@ -91,31 +91,43 @@ export async function deleteExpenseAction(
   expenseId: string,
   imagePath?: string | null
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  try {
+    const supabase = await createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  if (!user) {
-    return { success: false, error: 'Yetkisiz işlem.' }
+    if (!user) {
+      return { success: false, error: 'Oturum açmanız gerekiyor.' }
+    }
+
+    // 1. Veritabanından kaydı sil
+    const { error: deleteError } = await supabase
+      .from('expenses')
+      .delete()
+      .eq('id', expenseId)
+      .eq('user_id', user.id)
+
+    if (deleteError) {
+      console.error('Delete expense DB error:', deleteError)
+      return { success: false, error: deleteError.message }
+    }
+
+    // 2. Storage'dan fotoğrafı sil
+    if (imagePath) {
+      const { error: storageError } = await supabase.storage
+        .from('receipts')
+        .remove([imagePath])
+      if (storageError) {
+        console.warn('Storage file remove error:', storageError)
+      }
+    }
+
+    revalidatePath('/')
+    revalidatePath('/[month]', 'page')
+    return { success: true }
+  } catch (err: any) {
+    console.error('Unexpected delete error:', err)
+    return { success: false, error: err?.message || 'Silme işlemi sırasında hata oluştu.' }
   }
-
-  // Önce harcamayı veritabanından sil
-  const { error: deleteError } = await supabase
-    .from('expenses')
-    .delete()
-    .eq('id', expenseId)
-    .eq('user_id', user.id)
-
-  if (deleteError) {
-    return { success: false, error: deleteError.message }
-  }
-
-  // Eğer fotoğrafı varsa Storage'dan da sil
-  if (imagePath) {
-    await supabase.storage.from('receipts').remove([imagePath])
-  }
-
-  revalidatePath('/')
-  return { success: true }
 }
