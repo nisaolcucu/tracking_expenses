@@ -61,7 +61,12 @@ KURALLAR:
    - Fişteki "TOPLAM" veya "GENEL TOPLAM" tutarını al.
    - Sayısal float olarak döndür (örn: 123.45). Okunamazsa null.
 3. "currency": Para birimi kodu. Türk Lirası için her zaman "TRY" döndür.
-4. "purchased_at": Fiş üzerindeki alışveriş tarihi. Mutlaka YYYY-MM-DD formatında olmalı (örn: "2024-03-24"). Okunamazsa null.
+4. "purchased_at": Fiş üzerindeki ALIŞVERİŞ TARİHİ.
+   - ÇOK ÖNEMLİ (TÜRKİYE TARİH KURALI): Türk fişlerinde gün daima aydan önce gelir: GG.AA.YYYY (veya GG/AA/YYYY).
+   - Örnek: "06.10.2024" veya "06/10/2024" yazıyorsa bu 6 EKİM 2024'tür (ASLA 10 Haziran değildir!).
+   - "TARİH:", "T:", "TARİH / SAAT", "DÜZENLENME TARİHİ" veya mali onay kısmındaki tarihi ara.
+   - FİŞ NO, SAAT (14:30), Z NO, KASA NO veya TCKN/VKN gibi sayıları tarihle karıştırma.
+   - Çıkarılan tarihi MUTLAKA "YYYY-MM-DD" formatında döndür (örn: "2024-10-06"). Fişte açık bir tarih göremiyorsan null yap.
 5. "category": Yalnızca şu 8 kategoriden en uygun olanı seç:
    - "Market" (Bakkal, süpermarket, gıda)
    - "Yeme-İçme" (Restoran, kafe, yemek, lokanta)
@@ -71,7 +76,7 @@ KURALLAR:
    - "Giyim" (Kıyafet, ayakkabı, tekstil)
    - "Eğlence" (Sinema, tiyatro, konser, hobi)
    - "Diğer" (Yukarıdakilere uymayan veya anlaşılamayan)
-6. "confidence": Fişin okunabilirlik kalitesi ve çıkarılan verilerin kesinliği için 0.0 ile 1.0 arasında bir güven skoru. (örn: 0.95 çok net, 0.40 bulanık veya eksik).
+6. "confidence": Fişin okunabilirlik kalitesi ve çıkarılan verilerin kesinliği için 0.0 ile 1.0 arasında bir güven skoru.
 7. ASLA DEĞER UYDURMA. Fişte açıkça görünmeyen veya okunamayan alanları null bırak.`
 
     const completion = await openai.chat.completions.create({

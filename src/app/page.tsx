@@ -92,6 +92,13 @@ export default async function HomePage(props: HomePageProps) {
     amount: Math.round((categoryTotals[cat] || 0) * 100) / 100,
   }))
 
+  // Günlük harcama toplamları (Takvim ısı haritası için)
+  const dailyTotals: Record<string, number> = {}
+  expenses.forEach((item) => {
+    const dateKey = item.purchased_at
+    dailyTotals[dateKey] = (dailyTotals[dateKey] || 0) + item.amount
+  })
+
   // En çok harcanan kategori
   let topCategory: { category: string; amount: number } | null = null
   let maxCatAmount = 0
@@ -154,7 +161,10 @@ export default async function HomePage(props: HomePageProps) {
             </p>
           </div>
           <div className="w-full sm:w-auto">
-            <MonthSelector selectedMonth={selectedMonth} />
+            <MonthSelector
+              selectedMonth={selectedMonth}
+              dailyTotals={dailyTotals}
+            />
           </div>
         </div>
 

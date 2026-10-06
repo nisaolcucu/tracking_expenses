@@ -539,6 +539,9 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
+            <p className="text-[11px] text-amber-400/90 flex items-center gap-1 mt-1">
+              <span>💡</span> Fişten okunan tarihi kontrol etmeyi unutmayın
+            </p>
           </div>
         </div>
 
