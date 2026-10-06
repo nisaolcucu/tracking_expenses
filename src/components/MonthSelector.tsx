@@ -10,28 +10,25 @@ import {
   Flame,
 } from 'lucide-react'
 import { formatMonthYear, formatCurrency } from '@/lib/formatters'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface MonthSelectorProps {
   selectedMonth: string // YYYY-MM
   dailyTotals?: Record<string, number> // 'YYYY-MM-DD' -> amount
 }
 
-const MONTH_NAMES = [
-  'Ocak',
-  'Şubat',
-  'Mart',
-  'Nisan',
-  'Mayıs',
-  'Haziran',
-  'Temmuz',
-  'Ağustos',
-  'Eylül',
-  'Ekim',
-  'Kasım',
-  'Aralık',
+const MONTH_NAMES_TR = [
+  'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+  'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
 ]
 
-const DAYS_OF_WEEK = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz']
+const MONTH_NAMES_EN = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+]
+
+const DAYS_OF_WEEK_TR = ['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Ct', 'Pz']
+const DAYS_OF_WEEK_EN = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
 export default function MonthSelector({
   selectedMonth,
@@ -39,8 +36,12 @@ export default function MonthSelector({
 }: MonthSelectorProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { t, language } = useLanguage()
 
   const [isOpen, setIsOpen] = useState(false)
+
+  const monthNames = language === 'en' ? MONTH_NAMES_EN : MONTH_NAMES_TR
+  const daysOfWeek = language === 'en' ? DAYS_OF_WEEK_EN : DAYS_OF_WEEK_TR
 
   const [currentYear, currentMonthNum] = selectedMonth
     .split('-')
@@ -53,7 +54,6 @@ export default function MonthSelector({
     const params = new URLSearchParams(searchParams.toString())
     params.set('month', formattedMonth)
     router.push(`/?${params.toString()}`)
-    // Modal kullanıcının günleri ve harita yoğunluğunu inceleyebilmesi için açık kalır
   }
 
   const handleMonthOffset = (offset: number) => {
@@ -80,36 +80,32 @@ export default function MonthSelector({
 
   // Takvim günlerini hesaplama
   const daysInMonth = new Date(currentYear, currentMonthNum, 0).getDate()
-  // 1. günün haftanın hangi günü olduğu (Pazartesi=0, Pazar=6)
   const firstDayOfWeek =
     (new Date(currentYear, currentMonthNum - 1, 1).getDay() + 6) % 7
 
   // Harcama seviyesine göre renk belirleme
   const getDayColor = (amount: number) => {
     if (!amount || amount === 0) {
-      return 'bg-slate-900/60 text-slate-500 border border-slate-800/80 hover:border-slate-700'
+      return 'bg-slate-100 dark:bg-slate-900/60 text-slate-400 dark:text-slate-500 border border-slate-200 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700'
     }
     if (amount < 500) {
-      // Düşük harcama: Yeşil
-      return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
+      return 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
     }
     if (amount <= 2000) {
-      // Orta harcama: Sarı
-      return 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10'
+      return 'bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/10'
     }
-    // Yüksek harcama: Kırmızı
-    return 'bg-rose-500/25 text-rose-300 border border-rose-500/50 shadow-md shadow-rose-500/20 font-bold'
+    return 'bg-rose-500/25 text-rose-700 dark:text-rose-300 border border-rose-500/50 shadow-md shadow-rose-500/20 font-bold'
   }
 
   return (
     <>
       {/* Ana Çubuk Butonları */}
-      <div className="flex items-center justify-between bg-slate-900/80 border border-slate-800 rounded-2xl p-2 sm:p-2.5 shadow-lg">
+      <div className="flex items-center justify-between bg-white/85 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-2 sm:p-2.5 shadow-lg">
         <button
           type="button"
           onClick={() => handleMonthOffset(-1)}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors cursor-pointer"
-          title="Önceki Ay"
+          className="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors cursor-pointer"
+          title="Önceki"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -122,13 +118,13 @@ export default function MonthSelector({
               setModalYear(currentYear)
               setIsOpen(true)
             }}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 hover:bg-slate-800/80 border border-slate-800 hover:border-indigo-500/50 text-white font-medium text-sm sm:text-base capitalize transition-all cursor-pointer group"
-            title="Takvim ve Yıl Seçiciyi Aç"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-950/70 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 text-slate-800 dark:text-white font-medium text-sm sm:text-base capitalize transition-all cursor-pointer group"
+            title={t('calendar_title')}
           >
-            <CalendarIcon className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-            <span>{formatMonthYear(selectedMonth)}</span>
-            <span className="text-[10px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.5 rounded font-normal">
-              Değiştir
+            <CalendarIcon className="w-4 h-4 text-indigo-500 dark:text-indigo-400 group-hover:scale-110 transition-transform" />
+            <span>{formatMonthYear(selectedMonth, language)}</span>
+            <span className="text-[10px] bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-300 px-1.5 py-0.5 rounded font-normal">
+              {t('change_date')}
             </span>
           </button>
 
@@ -136,9 +132,9 @@ export default function MonthSelector({
             <button
               type="button"
               onClick={handleResetToCurrent}
-              className="text-xs text-indigo-400 hover:text-indigo-300 px-2 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg transition-colors cursor-pointer"
+              className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 px-2 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-lg transition-colors cursor-pointer font-medium"
             >
-              Bu Ay
+              {t('this_month')}
             </button>
           )}
         </div>
@@ -146,8 +142,8 @@ export default function MonthSelector({
         <button
           type="button"
           onClick={() => handleMonthOffset(1)}
-          className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-colors cursor-pointer"
-          title="Sonraki Ay"
+          className="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors cursor-pointer"
+          title="Sonraki"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -156,25 +152,25 @@ export default function MonthSelector({
       {/* Gelişmiş Takvim & Isı Haritası Modalı */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setIsOpen(false)}
         >
           <div
-            className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative"
+            className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative cursor-default"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Başlığı */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 flex items-center justify-center">
                   <Flame className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-base font-bold text-white">
-                    Tarih & Harcama Takvimi
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                    {t('calendar_title')}
                   </h3>
-                  <p className="text-xs text-slate-400">
-                    Geçmiş yıllara atlayın ve harcama yoğunluğunu görün
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    {t('calendar_subtitle')}
                   </p>
                 </div>
               </div>
@@ -182,26 +178,26 @@ export default function MonthSelector({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Yıl Seçici (Hızlı Geçiş) */}
-            <div className="my-4 flex items-center justify-between bg-slate-950/70 p-2 rounded-2xl border border-slate-800">
+            <div className="my-4 flex items-center justify-between bg-slate-50 dark:bg-slate-950/70 p-2 rounded-2xl border border-slate-200 dark:border-slate-800">
               <button
                 type="button"
                 onClick={() => setModalYear((y) => y - 1)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <span className="text-sm font-bold text-white">{modalYear}</span>
+              <span className="text-sm font-bold text-slate-900 dark:text-white">{modalYear}</span>
               <button
                 type="button"
                 onClick={() => setModalYear((y) => y + 1)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -209,7 +205,7 @@ export default function MonthSelector({
 
             {/* 12 Ay Hızlı Seçim Izgarası */}
             <div className="grid grid-cols-4 gap-2 mb-5">
-              {MONTH_NAMES.map((name, idx) => {
+              {monthNames.map((name, idx) => {
                 const isSelected =
                   modalYear === currentYear && idx === currentMonthNum - 1
 
@@ -221,7 +217,7 @@ export default function MonthSelector({
                     className={`py-2 px-1 text-xs rounded-xl font-medium transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                        : 'bg-slate-950/40 text-slate-300 hover:bg-slate-800 hover:text-white border border-slate-800/80'
+                        : 'bg-slate-100 dark:bg-slate-950/40 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-800/80'
                     }`}
                   >
                     {name}
@@ -231,16 +227,16 @@ export default function MonthSelector({
             </div>
 
             {/* Seçili Ayın Harcama Yoğunluğu Takvimi (Heatmap) */}
-            <div className="pt-4 border-t border-slate-800">
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-slate-300">
-                  {formatMonthYear(selectedMonth)} Günlük Harcama Dağılımı
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  {formatMonthYear(selectedMonth, language)} {t('daily_breakdown')}
                 </span>
               </div>
 
-              {/* Gün Başlıkları (Pt, Sa, ...) */}
-              <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-medium text-slate-500 mb-1.5">
-                {DAYS_OF_WEEK.map((day) => (
+              {/* Gün Başlıkları */}
+              <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-medium text-slate-400 dark:text-slate-500 mb-1.5">
+                {daysOfWeek.map((day) => (
                   <div key={day}>{day}</div>
                 ))}
               </div>
@@ -265,8 +261,8 @@ export default function MonthSelector({
                       className={`h-9 rounded-xl flex flex-col items-center justify-center text-[11px] transition-transform hover:scale-105 cursor-default relative group ${colorClass}`}
                       title={
                         dayAmount > 0
-                          ? `${dayNum} ${formatMonthYear(selectedMonth)}: ${formatCurrency(dayAmount)}`
-                          : `${dayNum} ${formatMonthYear(selectedMonth)}: Harcama yok`
+                          ? `${dayNum} ${formatMonthYear(selectedMonth, language)}: ${formatCurrency(dayAmount, 'TRY', language)}`
+                          : `${dayNum} ${formatMonthYear(selectedMonth, language)}: ${t('no_data')}`
                       }
                     >
                       <span>{dayNum}</span>
@@ -281,11 +277,11 @@ export default function MonthSelector({
               </div>
 
               {/* Renk Lejantı (Açıklama) ve Kapat Butonu */}
-              <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-800/80 text-[10px] text-slate-400 flex-wrap gap-2">
+              <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-200 dark:border-slate-800/80 text-[10px] text-slate-500 dark:text-slate-400 flex-wrap gap-2">
                 <div className="flex items-center gap-2.5 flex-wrap">
                   <div className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-slate-800 border border-slate-700" />
-                    <span>Yok</span>
+                    <span className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-800 border border-slate-400 dark:border-slate-700" />
+                    <span>0</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-500" />
@@ -306,7 +302,7 @@ export default function MonthSelector({
                   onClick={() => setIsOpen(false)}
                   className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-xs transition-colors cursor-pointer"
                 >
-                  Tamam
+                  OK
                 </button>
               </div>
             </div>
@@ -316,3 +312,4 @@ export default function MonthSelector({
     </>
   )
 }
+

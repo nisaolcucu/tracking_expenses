@@ -20,12 +20,14 @@ import {
   X,
   Sparkles,
 } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 interface ReceiptUploaderProps {
   onSuccess?: () => void
 }
 
 export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
+  const { t } = useLanguage()
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -226,16 +228,18 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
   }
 
   return (
-    <div className="relative z-10 bg-slate-900/60 backdrop-blur-xl border border-white/10 hover:border-white/15 rounded-3xl p-5 sm:p-7 shadow-2xl transition-all">
+    <div className="relative z-10 bg-white/85 dark:bg-slate-900/60 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/15 rounded-3xl p-5 sm:p-7 shadow-2xl transition-all">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 flex items-center justify-center shadow-md shadow-indigo-500/10">
+          <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 dark:bg-indigo-500/15 border border-indigo-500/20 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-300 flex items-center justify-center shadow-md shadow-indigo-500/10">
             <Sparkles className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-bold text-white text-base tracking-tight">Yeni Fiş Ekle</h3>
-            <p className="text-xs text-slate-400">
-              Yapay zeka ile tara veya bilgileri girin
+            <h3 className="font-bold text-slate-900 dark:text-white text-base tracking-tight">
+              {t('uploader_title')}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              {t('uploader_subtitle')}
             </p>
           </div>
         </div>
@@ -244,7 +248,7 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
           <button
             type="button"
             onClick={handleReset}
-            className="text-slate-400 hover:text-rose-400 p-1 rounded-lg transition-colors cursor-pointer"
+            className="text-slate-400 hover:text-rose-500 p-1 rounded-lg transition-colors cursor-pointer"
             title="Formu Temizle"
           >
             <X className="w-5 h-5" />
@@ -310,7 +314,7 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
               <button
                 type="button"
                 onClick={stopCamera}
-                className="px-4 py-2 text-xs font-medium text-slate-300 hover:text-white"
+                className="px-4 py-2 text-xs font-medium text-slate-300 hover:text-white cursor-pointer"
               >
                 İptal
               </button>
@@ -334,14 +338,16 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
           <button
             type="button"
             onClick={startCamera}
-            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-indigo-500/30 hover:border-indigo-400 bg-indigo-500/5 hover:bg-indigo-500/10 transition-all cursor-pointer"
+            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-indigo-300 dark:border-indigo-500/30 hover:border-indigo-500 bg-indigo-50/50 hover:bg-indigo-50/80 dark:bg-indigo-500/5 dark:hover:bg-indigo-500/10 transition-all cursor-pointer"
           >
-            <div className="w-12 h-12 rounded-full bg-indigo-600/20 text-indigo-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-full bg-indigo-500/15 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
               <Camera className="w-6 h-6" />
             </div>
-            <span className="text-sm font-medium text-white">Fotoğraf Çek</span>
-            <span className="text-xs text-slate-400 mt-0.5">
-              Kamerayı açarak fişi canlı tara
+            <span className="text-sm font-semibold text-slate-900 dark:text-white">
+              {t('take_photo')}
+            </span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              {t('take_photo_desc')}
             </span>
           </button>
 
@@ -349,14 +355,16 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-slate-750 hover:border-slate-600 bg-slate-950/40 hover:bg-slate-950/70 transition-all cursor-pointer"
+            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-slate-50/70 hover:bg-slate-100 dark:bg-slate-950/40 dark:hover:bg-slate-950/70 transition-all cursor-pointer"
           >
-            <div className="w-12 h-12 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
               <UploadCloud className="w-6 h-6" />
             </div>
-            <span className="text-sm font-medium text-white">Görsel Yükle</span>
-            <span className="text-xs text-slate-400 mt-0.5">
-              Galeriden veya bilgisayardan seç
+            <span className="text-sm font-semibold text-slate-900 dark:text-white">
+              {t('upload_file')}
+            </span>
+            <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              {t('upload_file_desc')}
             </span>
           </button>
         </div>
@@ -364,9 +372,9 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
 
       {/* Selected File & Preview State */}
       {file && (
-        <div className="mb-6 p-3 bg-slate-950/60 border border-slate-800/80 rounded-2xl flex items-center gap-4">
+        <div className="mb-6 p-3 bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 rounded-2xl flex items-center gap-4">
           {previewUrl && (
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 shrink-0">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/60 shrink-0">
               <img
                 src={previewUrl}
                 alt="Fiş Önizleme"
@@ -375,7 +383,7 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-medium text-slate-200 truncate">
+            <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
               {file.name}
             </p>
             <p className="text-[11px] text-slate-500">
@@ -383,7 +391,7 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
             </p>
 
             {isParsing && (
-              <div className="flex items-center gap-2 mt-2 text-indigo-400 text-xs font-medium">
+              <div className="flex items-center gap-2 mt-2 text-indigo-600 dark:text-indigo-400 text-xs font-medium">
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 <span>Fiş okunuyor... (GPT-4o-mini)</span>
               </div>
@@ -394,8 +402,8 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 <span
                   className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
                     confidence >= 0.6
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                      : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                      : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
                   }`}
                 >
                   Güven Skoru: %{Math.round(confidence * 100)}
@@ -408,8 +416,8 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
 
       {/* Low Confidence Warning (< 0.6) */}
       {!isParsing && confidence !== null && confidence < 0.6 && (
-        <div className="mb-5 p-3.5 bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs rounded-xl flex items-start gap-2.5">
-          <AlertTriangle className="w-4 h-4 shrink-0 text-amber-400 mt-0.5" />
+        <div className="mb-5 p-3.5 bg-amber-500/10 border border-amber-500/20 text-amber-700 dark:text-amber-300 text-xs rounded-xl flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 shrink-0 text-amber-500 dark:text-amber-400 mt-0.5" />
           <span>
             <strong>Lütfen değerleri kontrol et:</strong> Fiş görseli tam net
             okunamamış olabilir. Alanları doğrulayıp eksik yerleri düzeltiniz.
@@ -419,12 +427,12 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
 
       {/* Parse Error Notification (Manual fallback) */}
       {parseError && (
-        <div className="mb-5 p-3.5 bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs rounded-xl flex items-start gap-2.5">
-          <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
+        <div className="mb-5 p-3.5 bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300 text-xs rounded-xl flex items-start gap-2.5">
+          <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500 dark:text-rose-400 mt-0.5" />
           <div className="flex-1">
             <span className="font-semibold">Otomatik okuma tamamlanamadı:</span>{' '}
             {parseError}
-            <p className="mt-1 text-slate-400">
+            <p className="mt-1 text-slate-500 dark:text-slate-400">
               Fiş bilgilerini aşağıdaki forma elle girerek kaydetmeye devam
               edebilirsiniz.
             </p>
@@ -437,14 +445,14 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
         <div
           className={`mb-5 p-3.5 text-xs rounded-xl flex items-start gap-2.5 ${
             saveMessage.type === 'success'
-              ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300'
-              : 'bg-rose-500/10 border border-rose-500/20 text-rose-300'
+              ? 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300'
+              : 'bg-rose-500/10 border border-rose-500/20 text-rose-700 dark:text-rose-300'
           }`}
         >
           {saveMessage.type === 'success' ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400 mt-0.5" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-500 dark:text-emerald-400 mt-0.5" />
           ) : (
-            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400 mt-0.5" />
+            <AlertTriangle className="w-4 h-4 shrink-0 text-rose-500 dark:text-rose-400 mt-0.5" />
           )}
           <span>{saveMessage.text}</span>
         </div>
@@ -455,11 +463,11 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Store Name */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-              Mağaza / İşletme Adı
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+              {t('store_label')}
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Store className="w-4 h-4" />
               </div>
               <input
@@ -467,18 +475,18 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 value={store}
                 onChange={(e) => setStore(e.target.value)}
                 placeholder="Örn: Migros, Shell, Kafe"
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
           </div>
 
           {/* Amount & Currency */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-              Toplam Tutar (KDV Dahil) *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+              {t('amount_label')}
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <DollarSign className="w-4 h-4" />
               </div>
               <input
@@ -489,9 +497,9 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="0.00"
-                className="w-full pl-10 pr-16 py-2.5 bg-slate-950/70 border border-slate-800 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full pl-10 pr-16 py-2.5 bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
-              <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs font-semibold text-slate-400 pointer-events-none">
+              <span className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-xs font-semibold text-slate-500 dark:text-slate-400 pointer-events-none">
                 {currency}
               </span>
             </div>
@@ -501,21 +509,21 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Category */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-              Kategori *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+              {t('category_label')}
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Tag className="w-4 h-4" />
               </div>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all cursor-pointer"
               >
                 {EXPENSE_CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat} className="bg-slate-900 text-white">
-                    {cat}
+                  <option key={cat} value={cat} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                    {t(`cat_${cat}`) !== `cat_${cat}` ? t(`cat_${cat}`) : cat}
                   </option>
                 ))}
               </select>
@@ -524,11 +532,11 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
 
           {/* Purchased Date */}
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-              Harcama Tarihi *
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">
+              {t('date_label')}
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Calendar className="w-4 h-4" />
               </div>
               <input
@@ -536,11 +544,11 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 required
                 value={purchasedAt}
                 onChange={(e) => setPurchasedAt(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50/80 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
-            <p className="text-[11px] text-amber-400/90 flex items-center gap-1 mt-1">
-              <span>💡</span> Fişten okunan tarihi kontrol etmeyi unutmayın
+            <p className="text-[11px] text-amber-600 dark:text-amber-400/90 flex items-center gap-1 mt-1">
+              <span>💡</span> {t('date_hint')}
             </p>
           </div>
         </div>
@@ -555,12 +563,12 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
             {isSaving ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Kaydediliyor...</span>
+                <span>{t('saving')}</span>
               </>
             ) : (
               <>
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Harcamayı Kaydet</span>
+                <span>{t('btn_save')}</span>
               </>
             )}
           </button>
@@ -569,3 +577,4 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
     </div>
   )
 }
+

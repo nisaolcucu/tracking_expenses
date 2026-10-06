@@ -17,14 +17,32 @@ export const metadata: Metadata = {
   description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı kategorize edin ve bütçenizi kontrol altına alın.",
 };
 
+import { Providers } from "./providers";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="tr"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-slate-950 text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200">
-        {children}
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try {
+              const t = localStorage.getItem('theme');
+              if (t === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+              } else {
+                document.documentElement.classList.add('dark');
+              }
+            } catch (e) {}`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-indigo-500/30 selection:text-indigo-200 transition-colors duration-200">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

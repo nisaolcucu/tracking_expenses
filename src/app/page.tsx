@@ -2,12 +2,13 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { signOutAction } from '@/app/actions/auth'
 import { Receipt, LogOut, Heart, Target, Sparkles, CreditCard, PiggyBank } from 'lucide-react'
+import Navbar from '@/components/Navbar'
 import ReceiptUploader from '@/components/ReceiptUploader'
 import MonthSelector from '@/components/MonthSelector'
+import DashboardHeader from '@/components/DashboardHeader'
 import SummaryCards from '@/components/SummaryCards'
 import CategoryChart from '@/components/CategoryChart'
 import ExpenseList, { type ExpenseItem } from '@/components/ExpenseList'
-import BudgetModal from '@/components/BudgetModal'
 import BudgetProgress from '@/components/BudgetProgress'
 import ShouldIBuyModal from '@/components/ShouldIBuyModal'
 import { EXPENSE_CATEGORIES } from '@/lib/receipt-normalizer'
@@ -123,99 +124,22 @@ export default async function HomePage(props: HomePageProps) {
   })
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col relative overflow-x-hidden selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col relative overflow-x-hidden selection:bg-indigo-500/30 selection:text-indigo-200 transition-colors duration-200">
       {/* Arka Plan Ambient Mesh Işıkları */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-40 left-1/4 w-[550px] h-[550px] bg-indigo-600/10 rounded-full blur-[150px]" />
-        <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[160px]" />
-        <div className="absolute -bottom-20 left-1/4 w-[450px] h-[450px] bg-emerald-600/10 rounded-full blur-[140px]" />
+        <div className="absolute -top-40 left-1/4 w-[550px] h-[550px] bg-indigo-500/10 dark:bg-indigo-600/10 rounded-full blur-[150px]" />
+        <div className="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-purple-500/10 dark:bg-purple-600/10 rounded-full blur-[160px]" />
+        <div className="absolute -bottom-20 left-1/4 w-[450px] h-[450px] bg-emerald-500/10 dark:bg-emerald-600/10 rounded-full blur-[140px]" />
       </div>
 
       {/* Üst Navigasyon Barı */}
-      <header className="border-b border-white/5 bg-slate-950/70 backdrop-blur-xl sticky top-0 z-40 transition-all">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 text-white flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                <Receipt className="w-5 h-5" />
-              </div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-extrabold text-sm sm:text-base text-white tracking-tight">
-                  Fiş Takipçisi
-                </h1>
-                <span className="hidden sm:inline-flex text-[10px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                  AI v2.0
-                </span>
-              </div>
-            </div>
-
-            {/* Menü Sekmeleri */}
-            <nav className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-900/80 border border-white/5">
-              <a
-                href="/"
-                className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white font-medium text-xs shadow-sm shadow-indigo-600/30 transition-all"
-              >
-                Harcamalar
-              </a>
-              <a
-                href="/wishlist"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-400 hover:text-pink-300 hover:bg-pink-500/10 font-medium text-xs transition-colors"
-              >
-                <Heart className="w-3.5 h-3.5 text-pink-400" />
-                <span>İstek Listesi</span>
-              </a>
-              <a
-                href="/subscriptions"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-400 hover:text-indigo-300 hover:bg-indigo-500/10 font-medium text-xs transition-colors"
-              >
-                <CreditCard className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Abonelikler</span>
-              </a>
-              <a
-                href="/savings"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-slate-400 hover:text-amber-300 hover:bg-amber-500/10 font-medium text-xs transition-colors"
-              >
-                <PiggyBank className="w-3.5 h-3.5 text-amber-400" />
-                <span>Kumbara</span>
-              </a>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            {/* Canlı Takip Durum Hapı */}
-            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-medium shadow-[0_0_12px_rgba(16,185,129,0.12)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Canlı Takip Aktif</span>
-            </div>
-
-            {/* Bütçe Limitleri Modalı */}
-            <BudgetModal initialBudgets={budgets} />
-
-            <form action={signOutAction}>
-              <button
-                type="submit"
-                className="p-2 text-slate-400 hover:text-rose-400 bg-slate-900/80 hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/30 rounded-xl transition-all cursor-pointer"
-                title="Çıkış Yap"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </form>
-          </div>
-        </div>
-      </header>
+      <Navbar currentPath="/" initialBudgets={budgets} />
 
       {/* Ana Gösterge Paneli */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
         {/* Ay Seçici */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-              Harcama Özeti
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Aylık fişlerinizi, harcama dağılımınızı ve bütçenizi inceleyin
-            </p>
-          </div>
+          <DashboardHeader />
           <div className="w-full sm:w-auto">
             <MonthSelector
               selectedMonth={selectedMonth}

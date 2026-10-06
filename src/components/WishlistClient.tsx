@@ -2,6 +2,7 @@
 
 import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLanguage } from '@/context/LanguageContext'
 import {
   saveWishlistItemAction,
   deleteWishlistItemAction,
@@ -32,13 +33,15 @@ interface WishlistClientProps {
 }
 
 const PRIORITY_BADGES = {
-  Yüksek: 'bg-rose-500/10 text-rose-300 border-rose-500/30',
-  Orta: 'bg-amber-500/10 text-amber-300 border-amber-500/30',
-  Düşük: 'bg-slate-500/10 text-slate-300 border-slate-500/30',
+  Yüksek: 'bg-rose-500/10 text-rose-600 dark:text-rose-300 border-rose-500/30',
+  Orta: 'bg-amber-500/10 text-amber-600 dark:text-amber-300 border-amber-500/30',
+  Düşük: 'bg-slate-500/10 text-slate-600 dark:text-slate-300 border-slate-500/30',
 }
 
 export default function WishlistClient({ items: initialItems }: WishlistClientProps) {
   const router = useRouter()
+  const { t, language } = useLanguage()
+  const locale = language === 'en' ? 'en-US' : 'tr-TR'
   const [items, setItems] = useState<WishlistItem[]>(initialItems)
   const [filter, setFilter] = useState<'all' | 'pending' | 'purchased'>('pending')
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -127,20 +130,26 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
     return true
   })
 
+  const getPriorityLabel = (pri: 'Yüksek' | 'Orta' | 'Düşük') => {
+    if (pri === 'Yüksek') return t('priority_high')
+    if (pri === 'Düşük') return t('priority_low')
+    return t('priority_medium')
+  }
+
   return (
     <div className="space-y-6">
       {/* Top Banner & Action */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-pink-950/40 via-slate-900/80 to-slate-900/40 border border-pink-500/20 rounded-3xl p-6 sm:p-7 shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-pink-50/90 via-white to-pink-100/40 dark:from-pink-950/40 dark:via-slate-900/80 dark:to-slate-900/40 border border-pink-200/80 dark:border-pink-500/20 rounded-3xl p-6 sm:p-7 shadow-xl">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-medium mb-3">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-600 dark:text-pink-400 text-xs font-medium mb-3">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Akıllı Satın Alma Danışmanı</span>
+            <span>{t('wishlist_banner_badge')}</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-            Hayal ve İstek Listeniz
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+            {t('wishlist_banner_title')}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-lg mt-1">
-            Almayı düşündüğünüz şeyleri kaydedin, bütçenizi zorlamadan ne zaman alabileceğinizi yapay zekaya danışın.
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-lg mt-1">
+            {t('wishlist_banner_desc')}
           </p>
         </div>
 
@@ -149,10 +158,10 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
             triggerButton={
               <button
                 type="button"
-                className="flex items-center gap-2 px-4 py-3 bg-slate-800 hover:bg-slate-750 text-indigo-300 hover:text-white border border-indigo-500/30 rounded-2xl text-xs font-semibold shadow-md transition-all cursor-pointer"
+                className="flex items-center gap-2 px-4 py-3 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-750 text-indigo-700 dark:text-indigo-300 hover:text-indigo-900 dark:hover:text-white border border-indigo-200 dark:border-indigo-500/30 rounded-2xl text-xs font-semibold shadow-sm dark:shadow-md transition-all cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span>Hızlı AI Danışmanı</span>
+                <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+                <span>{t('wishlist_quick_ai')}</span>
               </button>
             }
           />
@@ -163,68 +172,68 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
             className="flex items-center gap-2 px-5 py-3 bg-pink-600 hover:bg-pink-500 text-white rounded-2xl text-xs font-semibold shadow-lg shadow-pink-600/30 transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            <span>Yeni İstek Ekle</span>
+            <span>{t('wishlist_add_btn')}</span>
           </button>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 bg-slate-900/80 p-1 border border-slate-800 rounded-2xl text-xs font-medium">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-900/80 p-1 border border-slate-200 dark:border-slate-800 rounded-2xl text-xs font-medium">
           <button
             type="button"
             onClick={() => setFilter('pending')}
-            className={`px-3.5 py-1.5 rounded-xl transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
               filter === 'pending'
                 ? 'bg-pink-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
-            Bekleyenler ({items.filter((i) => !i.is_purchased).length})
+            {t('filter_pending')} ({items.filter((i) => !i.is_purchased).length})
           </button>
           <button
             type="button"
             onClick={() => setFilter('purchased')}
-            className={`px-3.5 py-1.5 rounded-xl transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
               filter === 'purchased'
                 ? 'bg-emerald-600 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
-            Satın Alınanlar ({items.filter((i) => i.is_purchased).length})
+            {t('filter_purchased')} ({items.filter((i) => i.is_purchased).length})
           </button>
           <button
             type="button"
             onClick={() => setFilter('all')}
-            className={`px-3.5 py-1.5 rounded-xl transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
               filter === 'all'
-                ? 'bg-slate-800 text-white shadow-md'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm'
+                : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200'
             }`}
           >
-            Tümü ({items.length})
+            {t('filter_all')} ({items.length})
           </button>
         </div>
       </div>
 
       {/* Wishlist Items Grid */}
       {filteredItems.length === 0 ? (
-        <div className="bg-slate-900/80 border border-slate-800 rounded-3xl p-10 text-center shadow-xl">
-          <div className="w-14 h-14 rounded-2xl bg-slate-800 text-slate-500 flex items-center justify-center mx-auto mb-3">
+        <div className="bg-white/85 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-10 text-center shadow-xl">
+          <div className="w-14 h-14 rounded-2xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center mx-auto mb-3">
             <Heart className="w-7 h-7" />
           </div>
-          <h4 className="text-base font-semibold text-white mb-1">
-            İstek Listeniz Boş
+          <h4 className="text-base font-semibold text-slate-900 dark:text-white mb-1">
+            {t('wishlist_no_items')}
           </h4>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto mb-4">
-            Almayı planladığınız bir kaban, ayakkabı veya teknolojik aleti ekleyerek başlayın.
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto mb-4">
+            {t('wishlist_no_items_desc')}
           </p>
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
             className="px-4 py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-xl text-xs font-medium cursor-pointer"
           >
-            İlk İsteği Ekle
+            {t('first_wish_btn')}
           </button>
         </div>
       ) : (
@@ -234,14 +243,14 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
               key={item.id}
               className={`rounded-3xl border p-5 flex flex-col justify-between transition-all relative overflow-hidden ${
                 item.is_purchased
-                  ? 'bg-slate-950/40 border-slate-800/60 opacity-70'
-                  : 'bg-slate-900/80 border-slate-800 hover:border-slate-700'
+                  ? 'bg-slate-100/60 dark:bg-slate-950/40 border-slate-200/70 dark:border-slate-800/60 opacity-75'
+                  : 'bg-white/90 dark:bg-slate-900/80 border-slate-200/80 dark:border-slate-800 hover:border-pink-500/40 dark:hover:border-slate-700 shadow-md'
               }`}
             >
               <div>
                 {/* Photo or Placeholder */}
                 {item.image_url ? (
-                  <div className="relative w-full h-44 rounded-2xl overflow-hidden mb-4 bg-slate-950 border border-slate-800">
+                  <div className="relative w-full h-44 rounded-2xl overflow-hidden mb-4 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
                     <img
                       src={item.image_url}
                       alt={item.title}
@@ -249,7 +258,7 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-24 rounded-2xl bg-slate-950/80 border border-slate-800/80 flex items-center justify-center text-slate-600 mb-4">
+                  <div className="w-full h-24 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 flex items-center justify-center text-slate-400 dark:text-slate-600 mb-4">
                     <ShoppingBag className="w-8 h-8 opacity-40" />
                   </div>
                 )}
@@ -261,31 +270,31 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                       PRIORITY_BADGES[item.priority] || PRIORITY_BADGES.Orta
                     }`}
                   >
-                    {item.priority} Öncelik
+                    {getPriorityLabel(item.priority)} {t('priority_suffix')}
                   </span>
 
-                  <span className="text-[11px] text-slate-400 font-medium">
-                    {item.category}
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                    {t(`cat_${item.category}`) || item.category}
                   </span>
                 </div>
 
                 {/* Title & Price */}
-                <h3 className="font-bold text-white text-base truncate mb-1">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base truncate mb-1">
                   {item.title}
                 </h3>
-                <div className="text-xl font-extrabold text-white mb-2">
-                  {formatCurrency(item.price, item.currency)}
+                <div className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">
+                  {formatCurrency(item.price, item.currency, locale)}
                 </div>
 
                 {item.notes && (
-                  <p className="text-xs text-slate-400 line-clamp-2 mb-3">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">
                     {item.notes}
                   </p>
                 )}
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2 mt-2">
+              <div className="pt-4 border-t border-slate-200/60 dark:border-slate-800/80 flex items-center justify-between gap-2 mt-2">
                 {!item.is_purchased ? (
                   <>
                     <ShouldIBuyModal
@@ -295,10 +304,10 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                       triggerButton={
                         <button
                           type="button"
-                          className="flex items-center gap-1.5 px-3 py-2 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+                          className="flex items-center gap-1.5 px-3 py-2 bg-indigo-500/10 hover:bg-indigo-500/20 dark:bg-indigo-600/10 dark:hover:bg-indigo-600/20 text-indigo-700 dark:text-indigo-300 border border-indigo-500/20 dark:border-indigo-500/30 rounded-xl text-xs font-semibold transition-all cursor-pointer"
                         >
-                          <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                          <span>Almalı mıyım?</span>
+                          <Sparkles className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
+                          <span>{t('should_i_buy_btn')}</span>
                         </button>
                       }
                     />
@@ -308,24 +317,24 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                       disabled={actionId === item.id}
                       onClick={() => handleMarkPurchased(item)}
                       className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-medium transition-all cursor-pointer"
-                      title="Satın alındı olarak işaretle ve bu ayki harcamalara ekle"
+                      title={language === 'en' ? 'Mark as purchased and add to monthly expenses' : 'Satın alındı olarak işaretle ve bu ayki harcamalara ekle'}
                     >
                       <Check className="w-3.5 h-3.5" />
-                      <span>Satın Aldım</span>
+                      <span>{t('mark_as_purchased')}</span>
                     </button>
                   </>
                 ) : (
-                  <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Satın Alındı & Harcamaya Eklendi</span>
+                    <span>{t('purchased_badge')}</span>
                   </div>
                 )}
 
                 <button
                   type="button"
                   onClick={() => handleDelete(item.id, item.image_path)}
-                  className="p-2 text-slate-500 hover:text-rose-400 bg-slate-950/60 hover:bg-rose-500/10 border border-slate-800 hover:border-rose-500/30 rounded-xl transition-colors cursor-pointer"
-                  title="Sil"
+                  className="p-2 text-slate-400 hover:text-rose-500 dark:text-slate-500 dark:hover:text-rose-400 bg-slate-50 hover:bg-rose-50 dark:bg-slate-950/60 dark:hover:bg-rose-500/10 border border-slate-200 hover:border-rose-300 dark:border-slate-800 dark:hover:border-rose-500/30 rounded-xl transition-colors cursor-pointer"
+                  title={language === 'en' ? 'Delete' : 'Sil'}
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -338,26 +347,26 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
       {/* Add New Wishlist Item Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setIsModalOpen(false)}
         >
           <div
-            className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl relative cursor-default"
+            className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl relative cursor-default"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200/60 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-pink-500/10 text-pink-600 dark:text-pink-400 flex items-center justify-center">
                   <Heart className="w-4 h-4" />
                 </div>
-                <h3 className="font-bold text-white text-base">
-                  Yeni İstek / Ürün Ekle
+                <h3 className="font-bold text-slate-900 dark:text-white text-base">
+                  {t('new_wish_modal_title')}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={handleResetForm}
-                className="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -365,23 +374,23 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
 
             <form onSubmit={handleCreate} className="my-5 space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">
-                  Ürün / İstek Adı *
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                  {t('item_title_label')}
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="Örn: Zara Kaban, Dyson Süpürge"
+                  placeholder={language === 'en' ? 'e.g. Winter Coat, Dyson Vacuum' : 'Örn: Zara Kaban, Dyson Süpürge'}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-xs placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">
-                    Tahmini Fiyat (₺) *
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                    {t('estimated_price_label')}
                   </label>
                   <input
                     type="number"
@@ -391,22 +400,22 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                     placeholder="0.00"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-xs placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">
-                    Kategori *
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                    {t('category_label')}
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as ExpenseCategory)}
-                    className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer"
                   >
                     {EXPENSE_CATEGORIES.map((cat) => (
-                      <option key={cat} value={cat} className="bg-slate-900">
-                        {cat}
+                      <option key={cat} value={cat} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                        {t(`cat_${cat}`) || cat}
                       </option>
                     ))}
                   </select>
@@ -415,25 +424,25 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">
-                    Öncelik
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                    {t('priority_suffix')}
                   </label>
                   <select
                     value={priority}
                     onChange={(e) =>
                       setPriority(e.target.value as 'Yüksek' | 'Orta' | 'Düşük')
                     }
-                    className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-xs focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-1 focus:ring-pink-500 cursor-pointer"
                   >
-                    <option value="Yüksek">🔴 Yüksek (Acil)</option>
-                    <option value="Orta">🟡 Orta</option>
-                    <option value="Düşük">🟢 Düşük (Olsa da olur)</option>
+                    <option value="Yüksek" className="bg-white dark:bg-slate-900">🔴 {t('priority_high')} ({language === 'en' ? 'Urgent' : 'Acil'})</option>
+                    <option value="Orta" className="bg-white dark:bg-slate-900">🟡 {t('priority_medium')}</option>
+                    <option value="Düşük" className="bg-white dark:bg-slate-900">🟢 {t('priority_low')} ({language === 'en' ? 'Optional' : 'Olsa da olur'})</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-400 mb-1">
-                    Fotoğraf (Opsiyonel)
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                    {t('photo_label')}
                   </label>
                   <input
                     ref={fileInputRef}
@@ -445,34 +454,34 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 hover:border-slate-700 rounded-xl text-slate-300 text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl text-slate-700 dark:text-slate-300 text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <Camera className="w-3.5 h-3.5 text-pink-400" />
-                    <span>{photo ? 'Değiştir' : 'Görsel Seç'}</span>
+                    <Camera className="w-3.5 h-3.5 text-pink-500 dark:text-pink-400" />
+                    <span>{photo ? t('change_photo') : t('choose_photo')}</span>
                   </button>
                 </div>
               </div>
 
               {photoPreview && (
-                <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-700">
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700">
                   <img
                     src={photoPreview}
-                    alt="Seçilen görsel"
+                    alt="Preview"
                     className="w-full h-full object-cover"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1">
-                  Notlar / Link (Opsiyonel)
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
+                  {t('notes_label')}
                 </label>
                 <textarea
                   rows={2}
-                  placeholder="İndirime girdiğinde alacağım..."
+                  placeholder={language === 'en' ? 'Buy during holiday sales...' : 'İndirime girdiğinde alacağım...'}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-xl text-white text-xs placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-pink-500"
                 />
               </div>
 
@@ -480,9 +489,9 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                 <button
                   type="button"
                   onClick={handleResetForm}
-                  className="px-4 py-2 text-xs text-slate-400 hover:text-white"
+                  className="px-4 py-2 text-xs text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"
                 >
-                  İptal
+                  {t('cancel_btn')}
                 </button>
                 <button
                   type="submit"
@@ -492,7 +501,7 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                   {isSaving ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    <span>İsteği Kaydet</span>
+                    <span>{t('save_wish_btn')}</span>
                   )}
                 </button>
               </div>
