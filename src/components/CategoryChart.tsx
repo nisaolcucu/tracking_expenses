@@ -13,6 +13,7 @@ import {
 import { formatCurrency } from '@/lib/formatters'
 import { BarChart3 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface CategoryChartProps {
   data: {
@@ -35,6 +36,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function CategoryChart({ data }: CategoryChartProps) {
   const [isMounted, setIsMounted] = useState(false)
   const { t, language } = useLanguage()
+  const { currency, currencySymbol } = useCurrency()
 
   useEffect(() => {
     setIsMounted(true)
@@ -111,7 +113,7 @@ export default function CategoryChart({ data }: CategoryChartProps) {
               fontSize={11}
               tickLine={false}
               axisLine={false}
-              tickFormatter={(val) => `₺${val}`}
+              tickFormatter={(val) => `${currencySymbol}${val}`}
             />
             <Tooltip
               content={({ active, payload }) => {
@@ -123,7 +125,7 @@ export default function CategoryChart({ data }: CategoryChartProps) {
                         {item.translatedCategory}
                       </p>
                       <p className="text-sm font-bold text-slate-900 dark:text-white mt-1">
-                        {formatCurrency(item.amount, 'TRY', language)}
+                        {formatCurrency(item.amount, currency, language)}
                       </p>
                     </div>
                   )

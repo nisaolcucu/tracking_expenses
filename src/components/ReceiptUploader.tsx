@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useTransition } from 'react'
+import { useState, useRef, useTransition, useEffect } from 'react'
 import {
   EXPENSE_CATEGORIES,
   type ExpenseCategory,
@@ -21,6 +21,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface ReceiptUploaderProps {
   onSuccess?: () => void
@@ -28,6 +29,7 @@ interface ReceiptUploaderProps {
 
 export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
   const { t } = useLanguage()
+  const { currency: globalCurrency } = useCurrency()
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
 
@@ -44,11 +46,15 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
   // Form Değerleri
   const [store, setStore] = useState('')
   const [amount, setAmount] = useState('')
-  const [currency, setCurrency] = useState('TRY')
+  const [currency, setCurrency] = useState<string>(globalCurrency)
   const [category, setCategory] = useState<ExpenseCategory>('Market')
   const [purchasedAt, setPurchasedAt] = useState(
     new Date().toISOString().split('T')[0]
   )
+
+  useEffect(() => {
+    setCurrency(globalCurrency)
+  }, [globalCurrency])
 
   // Kaydetme işlemi
   const [isSaving, startSaving] = useTransition()

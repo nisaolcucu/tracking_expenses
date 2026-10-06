@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { formatCurrency, formatDate } from '@/lib/formatters'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 import {
   saveSavingsGoalAction,
   addMoneyToSavingsAction,
@@ -41,6 +42,7 @@ const COLOR_OPTIONS = [
 export default function SavingsClient({ initialGoals }: SavingsClientProps) {
   const router = useRouter()
   const { t, language } = useLanguage()
+  const { currency, currencySymbol } = useCurrency()
   const locale = language === 'en' ? 'en-US' : 'tr-TR'
   const [goals, setGoals] = useState<SavingsGoalItem[]>(initialGoals)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -172,11 +174,11 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
             </div>
           </div>
           <div className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-            {formatCurrency(totalSaved, 'TRY', locale)}
+            {formatCurrency(totalSaved, currency, locale)}
           </div>
           <div className="mt-3 text-xs text-indigo-600/80 dark:text-indigo-200/70">
             {language === 'en' ? 'Total Target: ' : 'Toplam hedef: '}
-            {formatCurrency(totalTarget, 'TRY', locale)}
+            {formatCurrency(totalTarget, currency, locale)}
           </div>
         </div>
 
@@ -332,10 +334,10 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
                     {/* Tutarlar & İlerleme */}
                     <div className="mt-4 mb-2 flex items-baseline justify-between">
                       <span className="text-2xl font-extrabold text-slate-900 dark:text-white">
-                        {formatCurrency(current, goal.currency, locale)}
+                        {formatCurrency(current, currency, locale)}
                       </span>
                       <span className="text-xs text-slate-500 dark:text-slate-400">
-                        / {formatCurrency(target, goal.currency, locale)}
+                        / {formatCurrency(target, currency, locale)}
                       </span>
                     </div>
 
@@ -360,7 +362,7 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
                       >
                         {isCompleted
                           ? t('savings_reached')
-                          : `${t('savings_remaining')}: ${formatCurrency(remaining, goal.currency, locale)}`}
+                          : `${t('savings_remaining')}: ${formatCurrency(remaining, currency, locale)}`}
                       </span>
                       <span className="font-bold text-slate-900 dark:text-white">%{pct}</span>
                     </div>
@@ -374,21 +376,21 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
                         onClick={() => handleQuickAdd(goal, 100)}
                         className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5 text-[11px] font-medium transition-all cursor-pointer shadow-sm"
                       >
-                        +100 ₺
+                        +100 {currencySymbol}
                       </button>
                       <button
                         type="button"
                         onClick={() => handleQuickAdd(goal, 500)}
                         className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5 text-[11px] font-medium transition-all cursor-pointer shadow-sm"
                       >
-                        +500 ₺
+                        +500 {currencySymbol}
                       </button>
                       <button
                         type="button"
                         onClick={() => handleQuickAdd(goal, 1000)}
                         className="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 dark:bg-slate-900 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/5 text-[11px] font-medium transition-all cursor-pointer shadow-sm"
                       >
-                        +1.000 ₺
+                        +1.000 {currencySymbol}
                       </button>
                     </div>
 
@@ -443,7 +445,7 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
             <form onSubmit={handleAddDeposit} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                  {t('amount_to_add_label')}
+                  {t('amount_to_add_label')} ({currencySymbol})
                 </label>
                 <input
                   type="number"
@@ -537,7 +539,7 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    {t('target_amount_label')}
+                    {t('target_amount_label')} ({currencySymbol})
                   </label>
                   <input
                     type="number"
@@ -551,7 +553,7 @@ export default function SavingsClient({ initialGoals }: SavingsClientProps) {
 
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    {t('initial_amount_label')}
+                    {t('initial_amount_label')} ({currencySymbol})
                   </label>
                   <input
                     type="number"

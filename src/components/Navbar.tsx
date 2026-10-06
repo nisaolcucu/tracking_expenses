@@ -5,6 +5,7 @@ import { signOutAction } from '@/app/actions/auth'
 import BudgetModal from '@/components/BudgetModal'
 import ThemeToggle from '@/components/ThemeToggle'
 import LanguageToggle from '@/components/LanguageToggle'
+import CurrencyToggle from '@/components/CurrencyToggle'
 import { Receipt, Heart, CreditCard, PiggyBank, LogOut } from 'lucide-react'
 
 interface NavbarProps {
@@ -93,6 +94,9 @@ export default function Navbar({
 
           {/* Dil Değiştirici (TR / EN) */}
           <LanguageToggle />
+
+          {/* Para Birimi Değiştirici (TRY / USD / EUR / GBP) */}
+          <CurrencyToggle />
 
           {/* Tema Değiştirici (Dark / Light) */}
           <ThemeToggle />

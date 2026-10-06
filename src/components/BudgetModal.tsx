@@ -6,6 +6,7 @@ import { EXPENSE_CATEGORIES, type ExpenseCategory } from '@/lib/receipt-normaliz
 import { saveBudgetAction } from '@/app/actions/budgets'
 import { Target, X, Check, Loader2, Sparkles } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface BudgetModalProps {
   initialBudgets: Record<string, number>
@@ -13,6 +14,7 @@ interface BudgetModalProps {
 
 export default function BudgetModal({ initialBudgets }: BudgetModalProps) {
   const { t } = useLanguage()
+  const { currencySymbol } = useCurrency()
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [budgets, setBudgets] = useState<Record<string, string>>(() => {
@@ -123,7 +125,7 @@ export default function BudgetModal({ initialBudgets }: BudgetModalProps) {
                       className="w-full pl-3 pr-8 py-1.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl text-slate-900 dark:text-white text-xs placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                     />
                     <span className="absolute inset-y-0 right-0 pr-2 flex items-center text-[10px] text-slate-400 dark:text-slate-500 pointer-events-none">
-                      ₺
+                      {currencySymbol}
                     </span>
                   </div>
 

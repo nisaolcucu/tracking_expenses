@@ -25,6 +25,7 @@ import {
   ArrowUpDown,
 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 export interface ExpenseItem {
   id: string
@@ -68,6 +69,7 @@ const CATEGORY_BADGES: Record<string, string> = {
 export default function ExpenseList({ expenses }: ExpenseListProps) {
   const router = useRouter()
   const { t, language } = useLanguage()
+  const { currency } = useCurrency()
   const [items, setItems] = useState<ExpenseItem[]>(expenses)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL')
@@ -341,7 +343,7 @@ export default function ExpenseList({ expenses }: ExpenseListProps) {
                 <div className="flex items-center justify-between sm:justify-end gap-3 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100 dark:border-slate-800/60">
                   <div className="text-right">
                     <div className="font-extrabold text-slate-900 dark:text-white text-base sm:text-lg tracking-tight">
-                      {formatCurrency(expense.amount, expense.currency, language)}
+                      {formatCurrency(expense.amount, currency, language)}
                     </div>
                   </div>
 

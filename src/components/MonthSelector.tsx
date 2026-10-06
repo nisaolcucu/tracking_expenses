@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import { formatMonthYear, formatCurrency } from '@/lib/formatters'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface MonthSelectorProps {
   selectedMonth: string // YYYY-MM
@@ -37,6 +38,7 @@ export default function MonthSelector({
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t, language } = useLanguage()
+  const { currency } = useCurrency()
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -261,7 +263,7 @@ export default function MonthSelector({
                       className={`h-9 rounded-xl flex flex-col items-center justify-center text-[11px] transition-transform hover:scale-105 cursor-default relative group ${colorClass}`}
                       title={
                         dayAmount > 0
-                          ? `${dayNum} ${formatMonthYear(selectedMonth, language)}: ${formatCurrency(dayAmount, 'TRY', language)}`
+                          ? `${dayNum} ${formatMonthYear(selectedMonth, language)}: ${formatCurrency(dayAmount, currency, language)}`
                           : `${dayNum} ${formatMonthYear(selectedMonth, language)}: ${t('no_data')}`
                       }
                     >

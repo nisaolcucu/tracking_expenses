@@ -3,6 +3,7 @@
 import { useState, useTransition, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 import {
   saveWishlistItemAction,
   deleteWishlistItemAction,
@@ -41,6 +42,7 @@ const PRIORITY_BADGES = {
 export default function WishlistClient({ items: initialItems }: WishlistClientProps) {
   const router = useRouter()
   const { t, language } = useLanguage()
+  const { currency, currencySymbol } = useCurrency()
   const locale = language === 'en' ? 'en-US' : 'tr-TR'
   const [items, setItems] = useState<WishlistItem[]>(initialItems)
   const [filter, setFilter] = useState<'all' | 'pending' | 'purchased'>('pending')
@@ -283,7 +285,7 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
                   {item.title}
                 </h3>
                 <div className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">
-                  {formatCurrency(item.price, item.currency, locale)}
+                  {formatCurrency(item.price, currency, locale)}
                 </div>
 
                 {item.notes && (
@@ -390,7 +392,7 @@ export default function WishlistClient({ items: initialItems }: WishlistClientPr
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-400 mb-1">
-                    {t('estimated_price_label')}
+                    {t('estimated_price_label')} ({currencySymbol})
                   </label>
                   <input
                     type="number"

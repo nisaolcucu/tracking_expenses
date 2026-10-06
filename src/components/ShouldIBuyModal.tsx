@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { EXPENSE_CATEGORIES, type ExpenseCategory } from '@/lib/receipt-normalizer'
-import { formatCurrency } from '@/lib/formatters'
 import {
   Sparkles,
   X,
@@ -17,6 +16,7 @@ import {
   RotateCcw,
 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface ShouldIBuyModalProps {
   initialTitle?: string
@@ -33,6 +33,7 @@ export default function ShouldIBuyModal({
   triggerButton,
 }: ShouldIBuyModalProps) {
   const { t, language } = useLanguage()
+  const { currencySymbol } = useCurrency()
   const [isOpen, setIsOpen] = useState(false)
   const [title, setTitle] = useState(initialTitle)
   const [price, setPrice] = useState(initialPrice ? initialPrice.toString() : '')
@@ -206,7 +207,7 @@ export default function ShouldIBuyModal({
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">
-                      {t('ai_price_label')}
+                      {t('ai_price_label')} ({currencySymbol})
                     </label>
                     <input
                       type="number"

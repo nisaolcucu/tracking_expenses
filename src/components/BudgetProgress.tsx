@@ -3,6 +3,7 @@
 import { formatCurrency } from '@/lib/formatters'
 import { Target, AlertTriangle } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface BudgetProgressProps {
   budgets: Record<string, number>
@@ -14,6 +15,7 @@ export default function BudgetProgress({
   categoryTotals,
 }: BudgetProgressProps) {
   const { t, language } = useLanguage()
+  const { currency } = useCurrency()
 
   const categoriesWithLimits = Object.keys(budgets).filter(
     (cat) => budgets[cat] && budgets[cat] > 0
@@ -97,17 +99,17 @@ export default function BudgetProgress({
 
               <div className="flex items-center justify-between text-[11px]">
                 <span className="font-semibold text-slate-900 dark:text-white">
-                  {formatCurrency(spent, 'TRY', language)}
+                  {formatCurrency(spent, currency, language)}
                 </span>
                 <span className="text-slate-500 dark:text-slate-400">
-                  / {formatCurrency(limit, 'TRY', language)}
+                  / {formatCurrency(limit, currency, language)}
                 </span>
               </div>
 
               {isOver && (
                 <div className="mt-2.5 pt-2 border-t border-rose-500/20 text-[11px] text-rose-600 dark:text-rose-300 flex items-center gap-1.5 font-medium">
                   <AlertTriangle className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400 shrink-0" />
-                  <span>+{formatCurrency(spent - limit, 'TRY', language)} {t('over_limit_suffix')}</span>
+                  <span>+{formatCurrency(spent - limit, currency, language)} {t('over_limit_suffix')}</span>
                 </div>
               )}
             </div>

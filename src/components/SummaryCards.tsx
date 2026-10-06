@@ -3,6 +3,7 @@
 import { formatCurrency } from '@/lib/formatters'
 import { Wallet, ReceiptText, TrendingUp } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface SummaryCardsProps {
   totalAmount: number
@@ -16,6 +17,7 @@ export default function SummaryCards({
   topCategory,
 }: SummaryCardsProps) {
   const { t, language } = useLanguage()
+  const { currency } = useCurrency()
 
   const translatedTopCategory = topCategory
     ? t(`cat_${topCategory.category}`) !== `cat_${topCategory.category}`
@@ -40,7 +42,7 @@ export default function SummaryCards({
         </div>
 
         <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          {formatCurrency(totalAmount, 'TRY', language)}
+          {formatCurrency(totalAmount, currency, language)}
         </div>
 
         <div className="mt-3 flex items-center gap-2 text-xs text-indigo-100/80 dark:text-indigo-200/70">
@@ -70,7 +72,7 @@ export default function SummaryCards({
 
         <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
           {expenseCount > 0
-            ? `${t('avg_per_receipt')} ${formatCurrency(totalAmount / expenseCount, 'TRY', language)}`
+            ? `${t('avg_per_receipt')} ${formatCurrency(totalAmount / expenseCount, currency, language)}`
             : t('no_expenses_yet')}
         </div>
       </div>
@@ -94,7 +96,7 @@ export default function SummaryCards({
 
         <div className="mt-3 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
           {topCategory
-            ? `${formatCurrency(topCategory.amount, 'TRY', language)}`
+            ? `${formatCurrency(topCategory.amount, currency, language)}`
             : t('no_data')}
         </div>
       </div>

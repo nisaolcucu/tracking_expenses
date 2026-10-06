@@ -28,6 +28,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCurrency } from '@/context/CurrencyContext'
 
 interface SubscriptionsClientProps {
   initialSubscriptions: SubscriptionItem[]
@@ -47,6 +48,7 @@ export default function SubscriptionsClient({
 }: SubscriptionsClientProps) {
   const router = useRouter()
   const { t, language } = useLanguage()
+  const { currency, currencySymbol } = useCurrency()
   const [subscriptions, setSubscriptions] = useState<SubscriptionItem[]>(initialSubscriptions)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -175,7 +177,7 @@ export default function SubscriptionsClient({
             </div>
           </div>
           <div className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            {formatCurrency(totalMonthlyCost, 'TRY', language)}
+            {formatCurrency(totalMonthlyCost, currency, language)}
           </div>
           <div className="mt-3 text-xs text-indigo-100/80 dark:text-indigo-200/70">
             {activeSubs.length} {t('subs_active_title').toLowerCase()}
@@ -345,7 +347,7 @@ export default function SubscriptionsClient({
                   <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-100 dark:border-white/5">
                     <div className="text-right">
                       <div className="text-lg font-extrabold text-slate-900 dark:text-white">
-                        {formatCurrency(sub.amount, sub.currency, language)}
+                        {formatCurrency(sub.amount, currency, language)}
                         <span className="text-xs font-normal text-slate-500 dark:text-slate-400">/ay</span>
                       </div>
                     </div>
@@ -455,7 +457,7 @@ export default function SubscriptionsClient({
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                    Aylık Tutar (₺)
+                    {language === 'en' ? `Monthly Cost (${currencySymbol})` : `Aylık Tutar (${currencySymbol})`}
                   </label>
                   <input
                     type="number"
