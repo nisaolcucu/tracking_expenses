@@ -87,11 +87,6 @@ export default function Navbar({
 
         {/* Sağ: Dil, Tema, Bütçe, Çıkış */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Canlı Takip Durumu */}
-          <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-600 dark:text-emerald-400 text-[11px] font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>{t('live_tracking')}</span>
-          </div>
 
           {/* Bütçe Limitleri (Varsa) */}
           {initialBudgets && <BudgetModal initialBudgets={initialBudgets} />}
