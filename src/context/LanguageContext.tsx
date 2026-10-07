@@ -227,6 +227,24 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     auth_err_already_registered: 'Bu e-posta adresiyle zaten bir hesap mevcut.',
     auth_err_signup_failed: 'Kayıt işlemi başarısız oldu.',
     auth_success_signup: 'Hesabınız başarıyla oluşturuldu! E-posta adresinize bir onay bağlantısı gönderilmiş olabilir. Giriş yapabilirsiniz.',
+
+    // Showcase & Developer Portfolio
+    showcase_badge: 'Yapay Zeka Destekli Finans Asistanı',
+    showcase_headline: 'Harcamalarınızı mercek altına alın.',
+    showcase_desc: 'Fişlerinizi saniyeler içinde tarayın, bütçenizi, sabit aboneliklerinizi ve dijital kumbaranızı tek noktadan yönetin.',
+    showcase_feat1_title: 'Yapay Zeka ile Fiş Okuma',
+    showcase_feat1_desc: 'Kameradan çekin; mağaza, tutar, tarih ve kategori saniyeler içinde otomatik ayrılsın.',
+    showcase_feat2_title: 'Bütçe Limitleri & Analiz',
+    showcase_feat2_desc: 'Kategori bazlı harcama tavanı belirleyin, yoğunluk takvimiyle bütçenizi koruyun.',
+    showcase_feat3_title: 'Abonelikler & Kumbara',
+    showcase_feat3_desc: 'Yinelenen faturaların ödeme günlerini ve birikim hedeflerinizi canlı takip edin.',
+    showcase_feat4_title: 'Finans Koçu AI ("Almalı mıyım?")',
+    showcase_feat4_desc: 'Alışveriş kararsızlıklarında bütçenize göre anlık objektif satın alma tavsiyesi alın.',
+    dev_note_title: 'Geliştirici & Portfolyo Notu',
+    dev_note_badge: 'Açık Kaynak Proje',
+    dev_note_text: 'Bu proje Elif Nisa Ölçücü tarafından geliştirilmiştir. Canlı sistem güvenliği ve API maliyet koruması sebebiyle yeni üye alımı kapalıdır. Kaynak kodlarını ve mimari dokümanını GitHub üzerinden inceleyebilirsiniz.',
+    dev_github_btn: 'GitHub’da İncele',
+    signup_closed_notice: 'Canlı demoda yeni üye alımı kapalıdır. Kaynak kodları GitHub’da mevcuttur.',
   },
   en: {
     // Header & Nav
@@ -443,6 +461,24 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     auth_err_already_registered: 'An account already exists with this email address.',
     auth_err_signup_failed: 'Registration failed.',
     auth_success_signup: 'Account created successfully! A confirmation link may have been sent to your email. You can now sign in.',
+
+    // Showcase & Developer Portfolio
+    showcase_badge: 'AI-Powered Personal Finance Hub',
+    showcase_headline: 'Put your spending under the lens.',
+    showcase_desc: 'Scan receipts in seconds, manage budgets, subscriptions, and your digital piggy bank from one single place.',
+    showcase_feat1_title: 'AI Receipt Scanning',
+    showcase_feat1_desc: 'Snap a receipt photo; store, amount, date, and category are parsed automatically in seconds.',
+    showcase_feat2_title: 'Budget Limits & Insights',
+    showcase_feat2_desc: 'Set category caps, inspect dynamic charts, and prevent overspending with heatmaps.',
+    showcase_feat3_title: 'Subscriptions & Savings',
+    showcase_feat3_desc: 'Track recurring billing dates and save money toward your personal dreams.',
+    showcase_feat4_title: 'AI Financial Coach ("Should I buy?")',
+    showcase_feat4_desc: 'Get live purchase evaluation based on your current spending and remaining days.',
+    dev_note_title: 'Developer & Portfolio Note',
+    dev_note_badge: 'Open Source Project',
+    dev_note_text: 'This project is created by Elif Nisa Ölçücü. Public registration is restricted to prevent API quota misuse. You can explore the full source code and architecture guide on GitHub.',
+    dev_github_btn: 'View on GitHub',
+    signup_closed_notice: 'Registration is closed on the live demo. Source code is available on GitHub.',
   },
 }
 
