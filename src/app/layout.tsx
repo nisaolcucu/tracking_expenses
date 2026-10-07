@@ -13,8 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fiş Takipçisi | Akıllı Harcama Takibi",
-  description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı kategorize edin ve bütçenizi kontrol altına alın.",
+  title: "Fisly | Akıllı Fiş & Harcama Takibi",
+  description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı ve aboneliklerinizi yönetin, birikim hedeflerinize Fisly ile ulaşın.",
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
 };
 
 import { Providers } from "./providers";

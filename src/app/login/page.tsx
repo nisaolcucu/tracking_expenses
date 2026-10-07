@@ -26,16 +26,25 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo and Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 mb-4 shadow-lg shadow-indigo-500/5">
-            <Receipt className="w-8 h-8" />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl overflow-hidden border border-indigo-500/30 mb-4 shadow-xl shadow-indigo-500/20">
+            <img
+              src="/logo.jpg"
+              alt="Fisly Logo"
+              className="w-full h-full object-cover"
+            />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-2">
-            Fiş Takipçisi
-          </h1>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <h1 className="text-3xl font-extrabold tracking-tight text-white">
+              Fisly
+            </h1>
+            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              AI
+            </span>
+          </div>
           <p className="text-sm text-slate-400">
             {mode === 'login'
-              ? 'Harcamalarınızı ve fişlerinizi yapay zeka ile yönetin'
-              : 'Yeni bir hesap oluşturup harcamalarınızı kaydetmeye başlayın'}
+              ? 'Akıllı harcama, fiş ve birikim asistanınıza giriş yapın'
+              : 'Yeni bir Fisly hesabı oluşturup finansal kontrolü ele alın'}
           </p>
         </div>
 
