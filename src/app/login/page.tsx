@@ -57,7 +57,7 @@ export default function LoginPage() {
             <img
               src="/logo-dark.png"
               alt="Lensofish Logo"
-              className="h-16 sm:h-20 w-auto object-contain hidden dark:block drop-shadow-[0_4px_20px_rgba(99,102,241,0.25)]"
+              className="h-16 sm:h-20 w-auto object-contain hidden dark:block drop-shadow-md"
             />
           </div>
           <p className="text-sm text-slate-500 dark:text-slate-400">
