@@ -51,12 +51,12 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center mb-3">
             <img
               src="/logo-light.png"
-              alt="Fisly Logo"
+              alt="Lensofish Logo"
               className="h-16 sm:h-20 w-auto object-contain dark:hidden drop-shadow-sm"
             />
             <img
               src="/logo-dark.png"
-              alt="Fisly Logo"
+              alt="Lensofish Logo"
               className="h-16 sm:h-20 w-auto object-contain hidden dark:block drop-shadow-[0_4px_20px_rgba(99,102,241,0.25)]"
             />
           </div>

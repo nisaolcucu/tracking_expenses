@@ -1,9 +1,9 @@
 <div align="center">
 
-  <img src="public/logo-dark.png" alt="Fisly Logo" width="280" />
+  <img src="public/logo-dark.png" alt="Lensofish Logo" width="340" />
 
   <p align="center">
-    <strong>Akıllı harcama, fiş ve birikim asistanınız</strong><br />
+    <strong>Lens of Fish (Len$ of Fish) — Akıllı harcama, fiş ve birikim asistanınız</strong><br />
     Fişlerinizi yapay zeka ile saniyeler içinde tarayın, bütçenizi, sabit aboneliklerinizi ve kumbaranızı tek merkezden yönetin.
   </p>
 
@@ -30,11 +30,11 @@
 
 ---
 
-## 🌟 Fisly Nedir?
+## 🌟 Lensofish Nedir?
 
-**Fisly**, geleneksel bütçe uygulamalarının angaryasını ortadan kaldıran yeni nesil kişisel finans merkezidir. Kullanıcıların fişleri elle girmesine gerek kalmaz; kameradan çekilen veya yüklenen fiş fotoğrafı **multimodal yapay zeka** ile taranır ve mağaza adı, tutar, tarih ve kategori otomatik olarak ayrıştırılır.
+**Lensofish (Len$ of Fish)**, "Lens" (kamerayla fiş tarama & harcamaları merceğe alma) ile Türkçe "Fiş" (ve İngilizce "Fish") kelimelerinin harmanından doğan, bütçe yönetimini zahmetsiz kılan yeni nesil kişisel finans merkezidir. Kullanıcıların fişleri elle girmesine gerek kalmaz; kameradan çekilen veya yüklenen fiş fotoğrafı **multimodal yapay zeka** ile taranır ve mağaza adı, tutar, tarih ve kategori otomatik olarak ayrıştırılır.
 
-Fisly yalnızca harcamaları listelemekle kalmaz; **sabit aboneliklerinizi**, **kumbara birikimlerinizi** ve **istek listenizi** tek noktada birleştirir. Sağ altta bulunan **Finans Koçu AI** ise anlık bütçenizi analiz ederek satın alma kararlarınızda size dürüst bir danışmanlık sunar.
+Lensofish yalnızca harcamaları listelemekle kalmaz; **sabit aboneliklerinizi**, **kumbara birikimlerinizi** ve **istek listenizi** tek noktada birleştirir. Sağ altta bulunan **Finans Koçu AI** ise anlık bütçenizi analiz ederek satın alma kararlarınızda size dürüst bir danışmanlık sunar.
 
 ---
 
@@ -121,7 +121,7 @@ OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxx
 npm run dev
 ```
 
-Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresine giderek Fisly'i kullanmaya başlayabilirsiniz!
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresine giderek Lensofish'i kullanmaya başlayabilirsiniz!
 
 ### 5. Birim Testlerini Çalıştırın
 
@@ -148,7 +148,7 @@ npm test
 
 ## ☁️ Canlıya Alma (Deploy)
 
-Fisly, [Vercel](https://vercel.com/) üzerinde sıfır yapılandırmayla tek tıkla çalışacak şekilde optimize edilmiştir:
+Lensofish, [Vercel](https://vercel.com/) üzerinde sıfır yapılandırmayla tek tıkla çalışacak şekilde optimize edilmiştir:
 
 1. Projenizi GitHub'a gönderin (zaten git repository'nizde hazırdır).
 2. [Vercel Dashboard](https://vercel.com/)'a gidip **"Add New Project"** diyerek bu depoyu seçin.

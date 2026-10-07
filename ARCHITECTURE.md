@@ -1,6 +1,6 @@
-# 🏛️ Fisly — Sistem Mimarisi ve Teknik Tasarım Dokümanı (Architecture Guide)
+# 🏛️ Lensofish (Len$ of Fish) — Sistem Mimarisi ve Teknik Tasarım Dokümanı (Architecture Guide)
 
-> **Fisly**, harcama fişlerini yapay zeka ile saniyeler içinde analiz eden, çoklu para birimi ve çoklu dil destekli, sabit abonelikleri, birikim hedeflerini ve akıllı bütçe koçluğunu tek bir obsidian-fintech arayüzünde toplayan yeni nesil kişisel finans asistanıdır.
+> **Lensofish**, "Lens" (kamerayla fiş tarama & harcamaları merceğe alma) ile Türkçe "Fiş" (ve İngilizce "Fish") kelimelerinin harmanından doğan, çoklu para birimi ve çoklu dil destekli, sabit abonelikleri, birikim hedeflerini ve akıllı bütçe koçluğunu tek bir obsidian-fintech arayüzünde toplayan yeni nesil kişisel finans asistanıdır.
 
 Bu doküman; projeye yeni dahil olan geliştiricilerin, mimarların veya inceleyenlerin sistemin uçtan uca nasıl çalıştığını, yapay zekanın (AI) nasıl kurgulandığını ve güvenlik katmanlarını eksiksiz anlayabilmesi için hazırlanmıştır.
 
@@ -28,7 +28,7 @@ Bu doküman; projeye yeni dahil olan geliştiricilerin, mimarların veya inceley
 - Türk fişlerindeki terim karmaşası (`TOPKDV`, `MATRAH`, `NAKİT`, `ÖDENEN`), virgüllü para formatı (`1.234,50 ₺`) ve `GG.AA.YYYY` tarih formatı, küresel standart OCR motorlarının hatalı sonuçlar üretmesine sebep olur.
 - Bütçe takibi sadece geçmişi gösterir; kullanıcı alışveriş yaparken o an *"bunu almalı mıyım?"* sorusuna akıllı bir yanıt alamaz.
 
-### Fisly Çözümü
+### Lensofish Çözümü
 - **Sıfır Manuel Giriş:** Kullanıcı fişin fotoğrafını çeker veya yükler; multimodal yapay zeka saniyeler içinde mağazayı, tutarı, tarihi ve kategoriyi çıkarır.
 - **Dirençli Normalizasyon:** AI çıktısı doğrudan veritabanına yazılmaz; bir normalizasyon motorundan geçirilerek tutar ve tarih formatları güvenceye alınır.
 - **Bütünleşik Finans Hub'ı:** Yalnızca harcamalar değil; sabit abonelikler (Netflix, Spotify vs.), dijital kumbara (tatil, fon hedefleri) ve istek listesi tek çatı altındadır.
@@ -42,7 +42,7 @@ Aşağıdaki şema, istemci tarayıcısından başlayarak Next.js App Router, Op
 
 ```mermaid
 graph TD
-    User([Kullanıcı / Tarayıcı]) -->|WebRTC Canlı Kamera / Dosya Yükleme| UI[Fisly UI - Next.js 16 Client]
+    User([Kullanıcı / Tarayıcı]) -->|WebRTC Canlı Kamera / Dosya Yükleme| UI[Lensofish UI - Next.js 16 Client]
     
     subgraph Frontend Katmanı
         UI -->|Dil / Tema / Para Birimi Context| Contexts[Language, Theme, Currency Context]
@@ -142,8 +142,8 @@ tracking_expenses/
 │   └── __tests__/                          # Birim Testleri
 │       └── receipt-normalizer.test.ts      # OCR normalizasyonunun 14 adet kapsamlı testi
 ├── public/                                 # Statik Varlıklar
-│   ├── logo-light.png                      # Açık tema Fisly logosu
-│   ├── logo-dark.png                       # Koyu tema Fisly logosu
+│   ├── logo-light.png                      # Açık tema Lensofish logosu
+│   ├── logo-dark.png                       # Koyu tema Lensofish logosu
 │   └── icon-dark.png                       # Favicon ve uygulama ikonu
 ├── supabase/
 │   └── schema.sql                          # Veritabanı tabloları, indeksler ve RLS politikaları
@@ -154,7 +154,7 @@ tracking_expenses/
 
 ## 5. Yapay Zeka (AI) Mimarisi ve Veri Boru Hatları
 
-Fisly, yapay zekayı bir "pazarlama süsü" olarak değil, kullanıcının hayatını kolaylaştıran iki kritik operasyonel hatta kullanır:
+Lensofish, yapay zekayı bir "pazarlama süsü" olarak değil, kullanıcının hayatını kolaylaştıran iki kritik operasyonel hatta kullanır:
 
 ### 5.1 Fiş Okuma & Vision OCR Pipeline
 
@@ -284,7 +284,7 @@ erDiagram
 
 ## 7. İstemci Durum Yönetimi (State, Tema, Dil, Para Birimi)
 
-Fisly, harici ağır durum kütüphaneleri (Redux vb.) yerine hafif ve optimize React Context mimarisini kullanır:
+Lensofish, harici ağır durum kütüphaneleri (Redux vb.) yerine hafif ve optimize React Context mimarisini kullanır:
 
 1. **`LanguageContext`:**
    - Türkçe (`tr`) ve İngilizce (`en`) tam sözlük desteği.
@@ -321,4 +321,4 @@ Bu soru, uygulamayı yayına alırken en kritik konulardan biridir. Sistem şu p
 
 ## 🏁 Özet
 
-Fisly; modern frontend pratikleri (Next.js 16, React 19), sağlam veritabanı güvenliği (Supabase RLS) ve akılcı prompt mühendisliği ile güçlendirilmiş, üretime hazır (production-ready) bir fintech mimarisine sahiptir.
+Lensofish (Len$ of Fish); modern frontend pratikleri (Next.js 16, React 19), sağlam veritabanı güvenliği (Supabase RLS) ve akılcı prompt mühendisliği ile güçlendirilmiş, üretime hazır (production-ready) bir fintech mimarisine sahiptir.

@@ -56,12 +56,12 @@ export default function Navbar({
           <a href="/" className="flex items-center gap-1.5 group">
             <img
               src="/logo-light.png"
-              alt="Fisly"
+              alt="Lensofish"
               className="h-8 sm:h-9 w-auto dark:hidden object-contain group-hover:scale-105 transition-transform"
             />
             <img
               src="/logo-dark.png"
-              alt="Fisly"
+              alt="Lensofish"
               className="h-8 sm:h-9 w-auto hidden dark:block object-contain group-hover:scale-105 transition-transform"
             />
             <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-500/20 dark:border-indigo-500/30">

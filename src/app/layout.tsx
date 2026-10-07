@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fisly | Akıllı Fiş & Harcama Takibi",
-  description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı ve aboneliklerinizi yönetin, birikim hedeflerinize Fisly ile ulaşın.",
+  title: "Lensofish | Akıllı Fiş & Harcama Takibi",
+  description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı ve aboneliklerinizi yönetin, birikim hedeflerinize Lensofish ile ulaşın.",
   icons: {
     icon: "/icon-dark.png",
     apple: "/icon-dark.png",
