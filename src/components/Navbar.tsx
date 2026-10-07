@@ -53,22 +53,20 @@ export default function Navbar({
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Sol: Logo & Menü */}
         <div className="flex items-center gap-4 sm:gap-6">
-          <a href="/" className="flex items-center gap-2.5 group">
-            <div className="relative w-9 h-9 rounded-2xl overflow-hidden shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform border border-indigo-500/20">
-              <img
-                src="/logo.jpg"
-                alt="Fisly Logo"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="font-extrabold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">
-                Fisly
-              </span>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-500/20 dark:border-indigo-500/30">
-                AI
-              </span>
-            </div>
+          <a href="/" className="flex items-center gap-1.5 group">
+            <img
+              src="/logo-light.png"
+              alt="Fisly"
+              className="h-8 sm:h-9 w-auto dark:hidden object-contain group-hover:scale-105 transition-transform"
+            />
+            <img
+              src="/logo-dark.png"
+              alt="Fisly"
+              className="h-8 sm:h-9 w-auto hidden dark:block object-contain group-hover:scale-105 transition-transform"
+            />
+            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-300 border border-indigo-500/20 dark:border-indigo-500/30">
+              AI
+            </span>
           </a>
 
           {/* Menü Sekmeleri */}

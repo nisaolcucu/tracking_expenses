@@ -26,20 +26,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         {/* Logo and Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl overflow-hidden border border-indigo-500/30 mb-4 shadow-xl shadow-indigo-500/20">
+          <div className="inline-flex items-center justify-center mb-3">
             <img
-              src="/logo.jpg"
+              src="/logo-dark.png"
               alt="Fisly Logo"
-              className="w-full h-full object-cover"
+              className="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_4px_20px_rgba(99,102,241,0.25)]"
             />
-          </div>
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">
-              Fisly
-            </h1>
-            <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-              AI
-            </span>
           </div>
           <p className="text-sm text-slate-400">
             {mode === 'login'

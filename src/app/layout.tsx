@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: "Fisly | Akıllı Fiş & Harcama Takibi",
   description: "Yapay zeka ile fişlerinizi saniyeler içinde tarayın, harcamalarınızı ve aboneliklerinizi yönetin, birikim hedeflerinize Fisly ile ulaşın.",
   icons: {
-    icon: "/logo.jpg",
-    apple: "/logo.jpg",
+    icon: "/icon-dark.png",
+    apple: "/icon-dark.png",
   },
 };
 
