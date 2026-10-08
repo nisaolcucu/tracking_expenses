@@ -59,6 +59,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     date_hint: 'Fişten okunan tarihi kontrol etmeyi unutmayın',
     btn_save: 'Harcamayı Kaydet',
     saving: 'Kaydediliyor...',
+    receipt_long_tip_title: 'İpucu',
+    receipt_long_tip_desc: 'Tek kareye sığmayan çok uzun fişler için aşağıdaki alanlardan manuel (elle) giriş yapmanız daha hızlı ve etkilidir.',
 
     // Category Chart
     chart_title: 'Kategori Dağılımı',
@@ -297,6 +299,8 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     date_hint: 'Verify the detected purchase date',
     btn_save: 'Save Expense',
     saving: 'Saving...',
+    receipt_long_tip_title: 'Tip',
+    receipt_long_tip_desc: 'For very long receipts that do not fit into a single frame, entering details manually in the fields below is faster and more accurate.',
 
     // Category Chart
     chart_title: 'Category Breakdown',

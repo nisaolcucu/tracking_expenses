@@ -19,6 +19,7 @@ import {
   DollarSign,
   X,
   Sparkles,
+  Info,
 } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 import { useCurrency } from '@/context/CurrencyContext'
@@ -308,9 +309,12 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
                 className="w-full h-full object-cover"
               />
               {/* Vizör Kılavuz Çizgileri */}
-              <div className="absolute inset-6 border-2 border-dashed border-indigo-400/60 rounded-2xl pointer-events-none flex items-center justify-center">
+              <div className="absolute inset-6 border-2 border-dashed border-indigo-400/60 rounded-2xl pointer-events-none flex flex-col items-center justify-center gap-1.5 p-2 text-center">
                 <span className="text-[11px] font-medium bg-slate-950/80 px-2.5 py-1 rounded-full text-indigo-300">
                   Fişi bu karenin içine yerleştirin
+                </span>
+                <span className="text-[10px] text-amber-300 bg-slate-950/80 px-2 py-0.5 rounded-full">
+                  💡 Çok uzun fişler için formu elle doldurabilirsiniz
                 </span>
               </div>
             </div>
@@ -339,40 +343,51 @@ export default function ReceiptUploader({ onSuccess }: ReceiptUploaderProps) {
 
       {/* Upload Zone if no file */}
       {!file && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-          {/* Kamera Butonu (Canlı Webcam veya Mobil Kamera) */}
-          <button
-            type="button"
-            onClick={startCamera}
-            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-indigo-300 dark:border-indigo-500/30 hover:border-indigo-500 bg-indigo-50/50 hover:bg-indigo-50/80 dark:bg-indigo-500/5 dark:hover:bg-indigo-500/10 transition-all cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-full bg-indigo-500/15 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
-              <Camera className="w-6 h-6" />
-            </div>
-            <span className="text-sm font-semibold text-slate-900 dark:text-white">
-              {t('take_photo')}
-            </span>
-            <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              {t('take_photo_desc')}
-            </span>
-          </button>
+        <div className="space-y-3 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Kamera Butonu (Canlı Webcam veya Mobil Kamera) */}
+            <button
+              type="button"
+              onClick={startCamera}
+              className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-indigo-300 dark:border-indigo-500/30 hover:border-indigo-500 bg-indigo-50/50 hover:bg-indigo-50/80 dark:bg-indigo-500/5 dark:hover:bg-indigo-500/10 transition-all cursor-pointer"
+            >
+              <div className="w-12 h-12 rounded-full bg-indigo-500/15 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <Camera className="w-6 h-6" />
+              </div>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                {t('take_photo')}
+              </span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                {t('take_photo_desc')}
+              </span>
+            </button>
 
-          {/* Dosya Seç Butonu */}
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-slate-50/70 hover:bg-slate-100 dark:bg-slate-950/40 dark:hover:bg-slate-950/70 transition-all cursor-pointer"
-          >
-            <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
-              <UploadCloud className="w-6 h-6" />
+            {/* Dosya Seç Butonu */}
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="group flex flex-col items-center justify-center p-6 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-600 bg-slate-50/70 hover:bg-slate-100 dark:bg-slate-950/40 dark:hover:bg-slate-950/70 transition-all cursor-pointer"
+            >
+              <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center mb-2.5 group-hover:scale-110 transition-transform">
+                <UploadCloud className="w-6 h-6" />
+              </div>
+              <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                {t('upload_file')}
+              </span>
+              <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                {t('upload_file_desc')}
+              </span>
+            </button>
+          </div>
+
+          {/* Uzun Fiş Bilgilendirme Notu */}
+          <div className="flex items-start gap-2.5 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-800 dark:text-amber-300 text-xs leading-relaxed">
+            <Info className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400 mt-0.5" />
+            <div>
+              <span className="font-semibold">{t('receipt_long_tip_title')}: </span>
+              <span>{t('receipt_long_tip_desc')}</span>
             </div>
-            <span className="text-sm font-semibold text-slate-900 dark:text-white">
-              {t('upload_file')}
-            </span>
-            <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              {t('upload_file_desc')}
-            </span>
-          </button>
+          </div>
         </div>
       )}
 
