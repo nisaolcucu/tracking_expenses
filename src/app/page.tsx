@@ -133,7 +133,7 @@ export default async function HomePage(props: HomePageProps) {
       </div>
 
       {/* Üst Navigasyon Barı */}
-      <Navbar currentPath="/" initialBudgets={budgets} />
+      <Navbar currentPath="/" initialBudgets={budgets} userEmail={user.email} />
 
       {/* Ana Gösterge Paneli */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">

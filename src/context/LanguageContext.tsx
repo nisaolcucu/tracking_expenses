@@ -22,6 +22,10 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     btn_signout: 'Çıkış Yap',
     live_tracking: 'Canlı Takip Aktif',
     back_to_expenses: 'Harcamalara Dön',
+    menu_navigation: 'Sayfalar',
+    menu_tools: 'Tercihler & Araçlar',
+    menu_account: 'Hesap',
+    menu_active: 'Aktif',
 
     // Summary Cards
     summary_title: 'Harcama Özeti',
@@ -256,6 +260,10 @@ const TRANSLATIONS: Record<Language, Record<string, string>> = {
     btn_signout: 'Sign Out',
     live_tracking: 'Live Tracking Active',
     back_to_expenses: 'Back to Expenses',
+    menu_navigation: 'Pages',
+    menu_tools: 'Preferences & Tools',
+    menu_account: 'Account',
+    menu_active: 'Active',
 
     // Summary Cards
     summary_title: 'Expense Summary',
